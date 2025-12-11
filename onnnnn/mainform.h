@@ -21,6 +21,7 @@ namespace SimpleStore {
         Label^ lblTitle;
         Label^ lblUser;
         Button^ btnLogin;
+        Button^ btnRegister;
         Button^ btnAdminPanel;
         ListBox^ listProducts;
         ListBox^ listCart;
@@ -63,7 +64,7 @@ namespace SimpleStore {
 
         void InitializeUI() {
             this->Text = L"🛒 Simple Store - متجر بسيط";
-            this->Size = System::Drawing::Size(1000, 650);
+            this->Size = System::Drawing::Size(1000, 620);
             this->StartPosition = FormStartPosition::CenterScreen;
             this->BackColor = Color::White;
             this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
@@ -87,14 +88,14 @@ namespace SimpleStore {
             lblUser->Text = L"👤 Guest";
             lblUser->Font = gcnew System::Drawing::Font(L"Arial", 12);
             lblUser->ForeColor = Color::White;
-            lblUser->Location = Point(620, 25);
+            lblUser->Location = Point(550, 25);
             lblUser->Size = System::Drawing::Size(150, 30);
             panelTop->Controls->Add(lblUser);
 
             btnAdminPanel = gcnew Button();
             btnAdminPanel->Text = L"🔧 Admin";
-            btnAdminPanel->Location = Point(780, 20);
-            btnAdminPanel->Size = System::Drawing::Size(90, 40);
+            btnAdminPanel->Location = Point(710, 20);
+            btnAdminPanel->Size = System::Drawing::Size(85, 40);
             btnAdminPanel->BackColor = Color::FromArgb(156, 39, 176);
             btnAdminPanel->ForeColor = Color::White;
             btnAdminPanel->FlatStyle = FlatStyle::Flat;
@@ -103,14 +104,25 @@ namespace SimpleStore {
             btnAdminPanel->Visible = false;
             panelTop->Controls->Add(btnAdminPanel);
 
+            btnRegister = gcnew Button();
+            btnRegister->Text = L"📝 Register";
+            btnRegister->Location = Point(805, 20);
+            btnRegister->Size = System::Drawing::Size(85, 40);
+            btnRegister->BackColor = Color::FromArgb(255, 152, 0);
+            btnRegister->ForeColor = Color::White;
+            btnRegister->FlatStyle = FlatStyle::Flat;
+            btnRegister->Font = gcnew System::Drawing::Font(L"Arial", 9, FontStyle::Bold);
+            btnRegister->Click += gcnew EventHandler(this, &StoreForm::btnRegister_Click);
+            panelTop->Controls->Add(btnRegister);
+
             btnLogin = gcnew Button();
             btnLogin->Text = L"Login";
-            btnLogin->Location = Point(880, 20);
-            btnLogin->Size = System::Drawing::Size(90, 40);
+            btnLogin->Location = Point(900, 20);
+            btnLogin->Size = System::Drawing::Size(70, 40);
             btnLogin->BackColor = Color::FromArgb(76, 175, 80);
             btnLogin->ForeColor = Color::White;
             btnLogin->FlatStyle = FlatStyle::Flat;
-            btnLogin->Font = gcnew System::Drawing::Font(L"Arial", 11, FontStyle::Bold);
+            btnLogin->Font = gcnew System::Drawing::Font(L"Arial", 10, FontStyle::Bold);
             btnLogin->Click += gcnew EventHandler(this, &StoreForm::btnLogin_Click);
             panelTop->Controls->Add(btnLogin);
 
@@ -203,18 +215,206 @@ namespace SimpleStore {
             btnClearCart->Font = gcnew System::Drawing::Font(L"Arial", 12, FontStyle::Bold);
             btnClearCart->Click += gcnew EventHandler(this, &StoreForm::btnClearCart_Click);
             this->Controls->Add(btnClearCart);
+        }
 
-            Label^ lblFooter = gcnew Label();
-            lblFooter->Text = L"💡 Admin Login: username='admin' password='admin123'";
-            lblFooter->Location = Point(20, 555);
-            lblFooter->Size = System::Drawing::Size(940, 25);
-            lblFooter->Font = gcnew System::Drawing::Font(L"Arial", 10, FontStyle::Italic);
-            lblFooter->ForeColor = Color::Gray;
-            lblFooter->TextAlign = ContentAlignment::MiddleCenter;
-            this->Controls->Add(lblFooter);
+        void btnRegister_Click(Object^ sender, EventArgs^ e) {
+            Form^ registerForm = gcnew Form();
+            registerForm->Text = L"📝 Register New Account - إنشاء حساب جديد";
+            registerForm->Size = System::Drawing::Size(400, 350);
+            registerForm->StartPosition = FormStartPosition::CenterParent;
+            registerForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+            registerForm->MaximizeBox = false;
+            registerForm->BackColor = Color::White;
+
+            Label^ lblTitle = gcnew Label();
+            lblTitle->Text = L"Create New Account";
+            lblTitle->Location = Point(20, 20);
+            lblTitle->Size = System::Drawing::Size(350, 30);
+            lblTitle->Font = gcnew System::Drawing::Font(L"Arial", 14, FontStyle::Bold);
+            lblTitle->ForeColor = Color::FromArgb(255, 152, 0);
+            registerForm->Controls->Add(lblTitle);
+
+            Label^ lblUsername = gcnew Label();
+            lblUsername->Text = L"Username - اسم المستخدم:";
+            lblUsername->Location = Point(20, 65);
+            lblUsername->Size = System::Drawing::Size(350, 25);
+            lblUsername->Font = gcnew System::Drawing::Font(L"Arial", 11);
+            registerForm->Controls->Add(lblUsername);
+
+            TextBox^ txtUsername = gcnew TextBox();
+            txtUsername->Location = Point(20, 95);
+            txtUsername->Size = System::Drawing::Size(340, 30);
+            txtUsername->Font = gcnew System::Drawing::Font(L"Arial", 12);
+            registerForm->Controls->Add(txtUsername);
+
+            Label^ lblPassword = gcnew Label();
+            lblPassword->Text = L"Password - كلمة المرور:";
+            lblPassword->Location = Point(20, 140);
+            lblPassword->Size = System::Drawing::Size(350, 25);
+            lblPassword->Font = gcnew System::Drawing::Font(L"Arial", 11);
+            registerForm->Controls->Add(lblPassword);
+
+            TextBox^ txtPassword = gcnew TextBox();
+            txtPassword->Location = Point(20, 170);
+            txtPassword->Size = System::Drawing::Size(340, 30);
+            txtPassword->Font = gcnew System::Drawing::Font(L"Arial", 12);
+            txtPassword->PasswordChar = '●';
+            registerForm->Controls->Add(txtPassword);
+
+            Label^ lblConfirm = gcnew Label();
+            lblConfirm->Text = L"Confirm Password - تأكيد كلمة المرور:";
+            lblConfirm->Location = Point(20, 215);
+            lblConfirm->Size = System::Drawing::Size(350, 25);
+            lblConfirm->Font = gcnew System::Drawing::Font(L"Arial", 11);
+            registerForm->Controls->Add(lblConfirm);
+
+            TextBox^ txtConfirm = gcnew TextBox();
+            txtConfirm->Location = Point(20, 245);
+            txtConfirm->Size = System::Drawing::Size(340, 30);
+            txtConfirm->Font = gcnew System::Drawing::Font(L"Arial", 12);
+            txtConfirm->PasswordChar = '●';
+            registerForm->Controls->Add(txtConfirm);
+
+            Button^ btnCreate = gcnew Button();
+            btnCreate->Text = L"✓ Create Account";
+            btnCreate->Location = Point(20, 290);
+            btnCreate->Size = System::Drawing::Size(160, 40);
+            btnCreate->BackColor = Color::FromArgb(76, 175, 80);
+            btnCreate->ForeColor = Color::White;
+            btnCreate->FlatStyle = FlatStyle::Flat;
+            btnCreate->Font = gcnew System::Drawing::Font(L"Arial", 11, FontStyle::Bold);
+            btnCreate->DialogResult = System::Windows::Forms::DialogResult::OK;
+            registerForm->Controls->Add(btnCreate);
+
+            Button^ btnCancel = gcnew Button();
+            btnCancel->Text = L"✖ Cancel";
+            btnCancel->Location = Point(200, 290);
+            btnCancel->Size = System::Drawing::Size(160, 40);
+            btnCancel->BackColor = Color::FromArgb(244, 67, 54);
+            btnCancel->ForeColor = Color::White;
+            btnCancel->FlatStyle = FlatStyle::Flat;
+            btnCancel->Font = gcnew System::Drawing::Font(L"Arial", 11, FontStyle::Bold);
+            btnCancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+            registerForm->Controls->Add(btnCancel);
+
+            registerForm->AcceptButton = btnCreate;
+            registerForm->CancelButton = btnCancel;
+
+            if (registerForm->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+                String^ username = txtUsername->Text->Trim();
+                String^ password = txtPassword->Text;
+                String^ confirm = txtConfirm->Text;
+
+                // Validation
+                if (String::IsNullOrWhiteSpace(username)) {
+                    MessageBox::Show(
+                        L"Please enter a username!\nالرجاء إدخال اسم المستخدم!",
+                        L"Error",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Error
+                    );
+                    return;
+                }
+
+                if (username->Length < 3) {
+                    MessageBox::Show(
+                        L"Username must be at least 3 characters!\nاسم المستخدم يجب أن يكون 3 أحرف على الأقل!",
+                        L"Error",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Error
+                    );
+                    return;
+                }
+
+                if (String::IsNullOrWhiteSpace(password)) {
+                    MessageBox::Show(
+                        L"Please enter a password!\nالرجاء إدخال كلمة المرور!",
+                        L"Error",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Error
+                    );
+                    return;
+                }
+
+                if (password->Length < 4) {
+                    MessageBox::Show(
+                        L"Password must be at least 4 characters!\nكلمة المرور يجب أن تكون 4 أحرف على الأقل!",
+                        L"Error",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Error
+                    );
+                    return;
+                }
+
+                if (password != confirm) {
+                    MessageBox::Show(
+                        L"Passwords do not match!\nكلمات المرور غير متطابقة!",
+                        L"Error",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Error
+                    );
+                    return;
+                }
+
+                // Check if username already exists
+                bool userExists = false;
+                for each (User ^ user in users) {
+                    if (user->Username->ToLower() == username->ToLower()) {
+                        userExists = true;
+                        break;
+                    }
+                }
+
+                if (userExists) {
+                    MessageBox::Show(
+                        L"Username already exists! Please choose another.\nاسم المستخدم موجود مسبقاً! الرجاء اختيار اسم آخر.",
+                        L"Error",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Error
+                    );
+                    return;
+                }
+
+                // Create new user
+                users->Add(gcnew User(username, password, false));
+
+                MessageBox::Show(
+                    String::Format(L"✅ Account created successfully!\n\nUsername: {0}\n\nYou can now login with your credentials.\n\nتم إنشاء الحساب بنجاح!\nيمكنك الآن تسجيل الدخول.", username),
+                    L"Success",
+                    MessageBoxButtons::OK,
+                    MessageBoxIcon::Information
+                );
+            }
         }
 
         void btnLogin_Click(Object^ sender, EventArgs^ e) {
+            if (btnLogin->Text == L"Logout") {
+                // Logout
+                auto result = MessageBox::Show(
+                    L"Are you sure you want to logout?\nهل تريد تسجيل الخروج؟",
+                    L"Confirm Logout",
+                    MessageBoxButtons::YesNo,
+                    MessageBoxIcon::Question
+                );
+
+                if (result == System::Windows::Forms::DialogResult::Yes) {
+                    currentUser = "Guest";
+                    isAdmin = false;
+                    lblUser->Text = L"👤 Guest";
+                    btnAdminPanel->Visible = false;
+                    btnLogin->Text = L"Login";
+                    btnRegister->Visible = true;
+
+                    MessageBox::Show(
+                        L"Logged out successfully!\nتم تسجيل الخروج بنجاح!",
+                        L"Logout",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Information
+                    );
+                }
+                return;
+            }
+
             Form^ loginForm = gcnew Form();
             loginForm->Text = L"🔐 Login - تسجيل الدخول";
             loginForm->Size = System::Drawing::Size(350, 270);
@@ -293,6 +493,7 @@ namespace SimpleStore {
                     lblUser->Text = L"👤 " + currentUser + (isAdmin ? L" (Admin)" : L"");
                     btnAdminPanel->Visible = isAdmin;
                     btnLogin->Text = L"Logout";
+                    btnRegister->Visible = false;
 
                     MessageBox::Show(
                         String::Format(L"Welcome {0}! 🎉\nمرحباً {0}!\n\n{1}",
