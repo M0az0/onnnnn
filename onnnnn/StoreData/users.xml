@@ -1,0 +1,8 @@
+<Users>
+  <User UserId="1" Username="admin" Password="admin123" Email="admin@store.com" FullName="Administrator" Address="" Phone="" IsAdmin="1" />
+  <User UserId="2" Username="sss" Password="sss123" Email="mmmoaa@gmail.com" FullName="sss123" Address="" Phone="" IsAdmin="0" />
+  <User UserId="3" Username="mm" Password="125" Email="hg@gmail.com" FullName="mm12" Address="" Phone="" IsAdmin="0" />
+  <User UserId="4" Username="aa" Password="aa" Email="aa@gmail.com" FullName="aa" Address="" Phone="" IsAdmin="0" />
+  <User UserId="2" Username="00" Password="nn" Email="" FullName="moaz" Address="" Phone="" IsAdmin="0" />
+  <User UserId="2" Username="moaz" Password="mm" Email="" FullName="moaz" Address="" Phone="" IsAdmin="0" />
+</Users>

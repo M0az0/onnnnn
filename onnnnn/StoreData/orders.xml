@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Orders>
+  <Order OrderId="1" UserId="1" OrderDate="2025-12-07 18:01:35" TotalAmount="999.99" Status="Pending" ShippingAddress="">
+    <Item ProductId="2" ProductName="iPhone 15 Pro" Quantity="1" Price="999.99" />
+  </Order>
+  <Order OrderId="2" UserId="1" OrderDate="2025-12-07 18:05:45" TotalAmount="699.99" Status="Pending" ShippingAddress="">
+    <Item ProductId="3" ProductName="Samsung 4K TV" Quantity="1" Price="699.99" />
+  </Order>
+  <Order OrderId="3" UserId="1" OrderDate="2025-12-07 18:12:01" TotalAmount="249.99" Status="Pending" ShippingAddress="">
+    <Item ProductId="5" ProductName="Office Chair" Quantity="1" Price="249.99" />
+  </Order>
+  <Order OrderId="4" UserId="1" OrderDate="2025-12-07 18:14:40" TotalAmount="299.99" Status="Pending" ShippingAddress="">
+    <Item ProductId="4" ProductName="Sony Headphones" Quantity="1" Price="299.99" />
+  </Order>
+  <Order OrderId="5" UserId="3" OrderDate="2025-12-07 19:41:11" TotalAmount="3899.95" Status="Pending" ShippingAddress="">
+    <Item ProductId="1" ProductName="Laptop Dell XPS 13" Quantity="2" Price="1299.99" />
+    <Item ProductId="4" ProductName="Sony Headphones" Quantity="2" Price="299.99" />
+    <Item ProductId="3" ProductName="Samsung 4K TV" Quantity="1" Price="699.99" />
+  </Order>
+</Orders>

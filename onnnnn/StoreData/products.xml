@@ -1,0 +1,7 @@
+<Products>
+  <Product ProductId="1" Name="Laptop Dell XPS 13" Description="High performance laptop" Price="1299.99" Stock="8" Category="Electronics" ImagePath="" />
+  <Product ProductId="2" Name="iPhone 15 Pro" Description="Latest smartphone" Price="999.99" Stock="14" Category="Electronics" ImagePath="" />
+  <Product ProductId="3" Name="Samsung 4K TV" Description="55 inch smart TV" Price="699.99" Stock="6" Category="Electronics" ImagePath="" />
+  <Product ProductId="4" Name="Sony Headphones" Description="Noise cancelling" Price="299.99" Stock="17" Category="Electronics" ImagePath="" />
+  <Product ProductId="5" Name="Office Chair" Description="Ergonomic design" Price="249.99" Stock="11" Category="Furniture" ImagePath="" />
+</Products>
