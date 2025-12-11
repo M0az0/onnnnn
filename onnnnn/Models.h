@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 using namespace System;
 
 public ref class Product {
@@ -37,5 +37,18 @@ public:
     virtual String^ ToString() override {
         return String::Format("{0} x {1} = ${2:F2}",
             Quantity, ProductInfo->Name, GetTotal());
+    }
+};
+
+public ref class User {
+public:
+    String^ Username;
+    String^ Password;
+    bool IsAdmin;
+
+    User(String^ username, String^ password, bool isAdmin) {
+        Username = username;
+        Password = password;
+        IsAdmin = isAdmin;
     }
 };
