@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 #include "Models.h"
+#include "AdminPanel.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -12,12 +13,15 @@ namespace SimpleStore {
     private:
         List<Product^>^ products;
         List<CartItem^>^ cart;
+        List<User^>^ users;
         String^ currentUser;
+        bool isAdmin;
 
         Panel^ panelTop;
         Label^ lblTitle;
         Label^ lblUser;
         Button^ btnLogin;
+        Button^ btnAdminPanel;
         ListBox^ listProducts;
         ListBox^ listCart;
         Label^ lblTotal;
@@ -38,8 +42,15 @@ namespace SimpleStore {
         void InitializeData() {
             products = gcnew List<Product^>();
             cart = gcnew List<CartItem^>();
+            users = gcnew List<User^>();
             currentUser = "Guest";
+            isAdmin = false;
 
+            // Initialize default users
+            users->Add(gcnew User("admin", "admin123", true));
+            users->Add(gcnew User("user", "user123", false));
+
+            // Initialize products
             products->Add(gcnew Product(1, "Laptop Dell", 1299.99, 10));
             products->Add(gcnew Product(2, "iPhone 15", 999.99, 15));
             products->Add(gcnew Product(3, "Samsung TV", 699.99, 8));
@@ -76,9 +87,21 @@ namespace SimpleStore {
             lblUser->Text = L"👤 Guest";
             lblUser->Font = gcnew System::Drawing::Font(L"Arial", 12);
             lblUser->ForeColor = Color::White;
-            lblUser->Location = Point(720, 25);
+            lblUser->Location = Point(620, 25);
             lblUser->Size = System::Drawing::Size(150, 30);
             panelTop->Controls->Add(lblUser);
+
+            btnAdminPanel = gcnew Button();
+            btnAdminPanel->Text = L"🔧 Admin";
+            btnAdminPanel->Location = Point(780, 20);
+            btnAdminPanel->Size = System::Drawing::Size(90, 40);
+            btnAdminPanel->BackColor = Color::FromArgb(156, 39, 176);
+            btnAdminPanel->ForeColor = Color::White;
+            btnAdminPanel->FlatStyle = FlatStyle::Flat;
+            btnAdminPanel->Font = gcnew System::Drawing::Font(L"Arial", 10, FontStyle::Bold);
+            btnAdminPanel->Click += gcnew EventHandler(this, &StoreForm::btnAdminPanel_Click);
+            btnAdminPanel->Visible = false;
+            panelTop->Controls->Add(btnAdminPanel);
 
             btnLogin = gcnew Button();
             btnLogin->Text = L"Login";
@@ -182,7 +205,7 @@ namespace SimpleStore {
             this->Controls->Add(btnClearCart);
 
             Label^ lblFooter = gcnew Label();
-            lblFooter->Text = L"💡 Tip: Select a product and click Add to Cart";
+            lblFooter->Text = L"💡 Admin Login: username='admin' password='admin123'";
             lblFooter->Location = Point(20, 555);
             lblFooter->Size = System::Drawing::Size(940, 25);
             lblFooter->Font = gcnew System::Drawing::Font(L"Arial", 10, FontStyle::Italic);
@@ -193,29 +216,43 @@ namespace SimpleStore {
 
         void btnLogin_Click(Object^ sender, EventArgs^ e) {
             Form^ loginForm = gcnew Form();
-            loginForm->Text = L"Login";
-            loginForm->Size = System::Drawing::Size(350, 200);
+            loginForm->Text = L"🔐 Login - تسجيل الدخول";
+            loginForm->Size = System::Drawing::Size(350, 270);
             loginForm->StartPosition = FormStartPosition::CenterParent;
             loginForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
             loginForm->MaximizeBox = false;
             loginForm->BackColor = Color::White;
 
-            Label^ lblName = gcnew Label();
-            lblName->Text = L"Enter your name:";
-            lblName->Location = Point(20, 30);
-            lblName->Size = System::Drawing::Size(300, 25);
-            lblName->Font = gcnew System::Drawing::Font(L"Arial", 11);
-            loginForm->Controls->Add(lblName);
+            Label^ lblUsername = gcnew Label();
+            lblUsername->Text = L"Username - اسم المستخدم:";
+            lblUsername->Location = Point(20, 30);
+            lblUsername->Size = System::Drawing::Size(300, 25);
+            lblUsername->Font = gcnew System::Drawing::Font(L"Arial", 11);
+            loginForm->Controls->Add(lblUsername);
 
-            TextBox^ txtName = gcnew TextBox();
-            txtName->Location = Point(20, 60);
-            txtName->Size = System::Drawing::Size(290, 30);
-            txtName->Font = gcnew System::Drawing::Font(L"Arial", 12);
-            loginForm->Controls->Add(txtName);
+            TextBox^ txtUsername = gcnew TextBox();
+            txtUsername->Location = Point(20, 60);
+            txtUsername->Size = System::Drawing::Size(290, 30);
+            txtUsername->Font = gcnew System::Drawing::Font(L"Arial", 12);
+            loginForm->Controls->Add(txtUsername);
+
+            Label^ lblPassword = gcnew Label();
+            lblPassword->Text = L"Password - كلمة المرور:";
+            lblPassword->Location = Point(20, 100);
+            lblPassword->Size = System::Drawing::Size(300, 25);
+            lblPassword->Font = gcnew System::Drawing::Font(L"Arial", 11);
+            loginForm->Controls->Add(lblPassword);
+
+            TextBox^ txtPassword = gcnew TextBox();
+            txtPassword->Location = Point(20, 130);
+            txtPassword->Size = System::Drawing::Size(290, 30);
+            txtPassword->Font = gcnew System::Drawing::Font(L"Arial", 12);
+            txtPassword->PasswordChar = '●';
+            loginForm->Controls->Add(txtPassword);
 
             Button^ btnOK = gcnew Button();
-            btnOK->Text = L"OK";
-            btnOK->Location = Point(20, 110);
+            btnOK->Text = L"✓ Login";
+            btnOK->Location = Point(20, 180);
             btnOK->Size = System::Drawing::Size(135, 40);
             btnOK->BackColor = Color::FromArgb(76, 175, 80);
             btnOK->ForeColor = Color::White;
@@ -225,8 +262,8 @@ namespace SimpleStore {
             loginForm->Controls->Add(btnOK);
 
             Button^ btnCancel = gcnew Button();
-            btnCancel->Text = L"Cancel";
-            btnCancel->Location = Point(175, 110);
+            btnCancel->Text = L"✖ Cancel";
+            btnCancel->Location = Point(175, 180);
             btnCancel->Size = System::Drawing::Size(135, 40);
             btnCancel->BackColor = Color::FromArgb(244, 67, 54);
             btnCancel->ForeColor = Color::White;
@@ -239,19 +276,50 @@ namespace SimpleStore {
             loginForm->CancelButton = btnCancel;
 
             if (loginForm->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-                if (!String::IsNullOrWhiteSpace(txtName->Text)) {
-                    currentUser = txtName->Text;
-                    lblUser->Text = L"👤 " + currentUser;
+                String^ username = txtUsername->Text;
+                String^ password = txtPassword->Text;
+
+                bool loginSuccess = false;
+                for each (User ^ user in users) {
+                    if (user->Username == username && user->Password == password) {
+                        currentUser = username;
+                        isAdmin = user->IsAdmin;
+                        loginSuccess = true;
+                        break;
+                    }
+                }
+
+                if (loginSuccess) {
+                    lblUser->Text = L"👤 " + currentUser + (isAdmin ? L" (Admin)" : L"");
+                    btnAdminPanel->Visible = isAdmin;
+                    btnLogin->Text = L"Logout";
+
                     MessageBox::Show(
-                        String::Format(L"Welcome {0}! 🎉\nمرحباً {0}!", currentUser),
+                        String::Format(L"Welcome {0}! 🎉\nمرحباً {0}!\n\n{1}",
+                            currentUser,
+                            isAdmin ? L"Admin access granted" : L""),
                         L"Login Success",
                         MessageBoxButtons::OK,
                         MessageBoxIcon::Information
                     );
                 }
+                else {
+                    MessageBox::Show(
+                        L"Invalid username or password!\nاسم مستخدم أو كلمة مرور خاطئة!",
+                        L"Login Failed",
+                        MessageBoxButtons::OK,
+                        MessageBoxIcon::Error
+                    );
+                }
             }
+        }
 
-            delete loginForm;
+        void btnAdminPanel_Click(Object^ sender, EventArgs^ e) {
+            if (!isAdmin) return;
+
+            AdminPanel^ adminPanel = gcnew AdminPanel(products);
+            adminPanel->ShowDialog();
+            LoadProducts();
         }
 
         void btnAddToCart_Click(Object^ sender, EventArgs^ e) {
